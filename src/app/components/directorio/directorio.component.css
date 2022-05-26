@@ -13,3 +13,8 @@
   p {
       text-align: justify;
   }
+
+  .scroll {
+      height: 400px;
+      overflow-y: auto;
+  }
