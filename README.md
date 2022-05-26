@@ -1,6 +1,6 @@
 # Autor: Cristhian Villegas Garcia
 
-Esta aplicación fue realizada con Angular. Para ejecutar este proyecto necesitas acceso al servidor que se encuentra en el siguiente enlace [This link](https://github.com/cristianvg1992/directorio).
+Esta aplicación fue realizada con Angular. Para ejecutar este proyecto necesitas acceso al servidor que se encuentra en el siguiente enlace [Backend](https://github.com/cristianvg1992/directorio).
 
 >
 
