@@ -1,0 +1,98 @@
+<app-menu></app-menu>
+<div class="emergente">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva venta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #factura="ngForm" (ngSubmit)="nuevaFactura()" novalidate>
+                <input type="number" name="monto" [(ngModel)]="monto" placeholder="Ingresa el monto" class="form-control" required>
+                
+                <input type="text" name="idUsuario" [(ngModel)]="idUsuario" placeholder="Ingresa la identificacion de usuario" class="form-control" required>
+
+                <input class="btn btn-primary" type="submit" [disabled]="!factura.valid">
+              </form>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="emergente">
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nuevo registro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #usuario="ngForm" (ngSubmit)="nuevoUsuario()" novalidate>
+                <input type="text" name="nombre" [(ngModel)]="nombre" placeholder="Ingresa el nombre" class="form-control">
+                <input type="text" name="apellidoPaterno" [(ngModel)]="apellidoPaterno" placeholder="Ingresa el ap paterno" class="form-control">
+                <input type="text" name="apellidoMaterno" [(ngModel)]="apellidoMaterno" placeholder="Ingresa el ap materno" class="form-control">
+                <input type="text" name="identificacion" [(ngModel)]="ident" placeholder="Ingresa tu identificacion" class="form-control">
+                <input class="btn btn-primary" type="submit" [disabled]="!usuario.valid">
+              </form>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row mb-5">
+        <button type="button" class="btn btn-success col-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Nueva venta
+        </button>&nbsp;
+
+        <button type="button" class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+            Agregar persona
+          </button>
+    </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">NOMBRE</th>
+            <th scope="col">APELLIDOS</th>
+            <th scope="col">IDENTIFICACION</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of directorio">
+            <td> {{ user.nombre }} </td>
+            <td> {{ user.apellidoPaterno }} </td>
+            <td> {{ user.identificacion }} </td>
+            <td> <button (click)="verFacturas(user.identificacion)" class="btn btn-primary">Ver facturas</button> &nbsp;
+            <button (click)="eliminar(user.identificacion)" class="btn btn-danger">Eliminar</button> </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<div class="b-example-divider"></div>
+
+<div class="container px-4 py-5" id="icon-grid" *ngIf="mostrarFacturas">
+    <h2 class="pb-2 border-bottom">Facturas por persona</h2>
+    <strong class="text-danger">Identificacion de usuario: {{ identificacion }} </strong>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5" >
+      <div class="col d-flex align-items-start" *ngFor="let item of listaFacturas.facturas">
+        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#bootstrap"/></svg>
+        <div>
+          <h4 class="fw-bold mb-0">Factura # {{ item.id }}</h4>
+          <p>Factura con el id <strong> {{ item.id }} </strong> expedida el dia <strong>{{ item.fecha }}</strong> 
+            por un monto aproximado de $<strong>{{ item.monto }}</strong></p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
