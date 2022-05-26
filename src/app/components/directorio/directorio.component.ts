@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-directorio',
@@ -8,8 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./directorio.component.css']
 })
 export class DirectorioComponent implements OnInit {
-  public URI_DIRECTORIO: string = 'http://localhost:8080/api/directorio';
-  public URI_FACTURA: string = 'http://localhost:8080/api/facturas';
+  public URI: string = environment.apiURL;
   public directorio : any = [];
   public listaFacturas: any = [];
   public mostrarFacturas : boolean = false;
@@ -30,7 +30,7 @@ export class DirectorioComponent implements OnInit {
   }
 
   public mostrarDirectorio(): void {
-    this.http.get(this.URI_DIRECTORIO).subscribe(
+    this.http.get(this.URI+"/api/directorio").subscribe(
       resp => { 
         console.log(resp); 
         this.directorio = resp;
@@ -43,7 +43,7 @@ export class DirectorioComponent implements OnInit {
 
   public eliminar(id: string){
     if (confirm('Desea eliminar esta registro?')){
-      this.http.delete(this.URI_DIRECTORIO + '/del/' + id).subscribe(
+      this.http.delete(this.URI +'/api/directorio/del/' + id).subscribe(
         resp => { 
           this.toastr.success( JSON.stringify(resp), 'Mensaje del sistema' );
           console.log(resp);
@@ -51,7 +51,7 @@ export class DirectorioComponent implements OnInit {
           this.mostrarFacturas = false;
         },
         err => {
-          this.toastr.error( err.error.message, 'Mensaje del sistema' );
+          this.toastr.error( err.error.msg, 'Mensaje del sistema' );
           console.log(err);
         }
       );
@@ -59,7 +59,7 @@ export class DirectorioComponent implements OnInit {
   }
 
   public verFacturas(id: string){
-    this.http.get(this.URI_DIRECTORIO + '/find/' +id).subscribe(
+    this.http.get(this.URI +'/api/directorio/find/' +id).subscribe(
       resp => { 
         this.identificacion = id;
         this.listaFacturas = resp;
@@ -67,6 +67,7 @@ export class DirectorioComponent implements OnInit {
         this.mostrarFacturas = true;
       },
       err => {
+        this.toastr.error( err.error, 'Mensaje del sistema' );
         console.log(err);
       }
     );
@@ -74,7 +75,7 @@ export class DirectorioComponent implements OnInit {
 
 
   public nuevoUsuario(): void {
-    this.http.post(this.URI_DIRECTORIO, {
+    this.http.post(this.URI+"/api/directorio", {
         nombre: this.nombre, 
         apellidoPaterno: this.apellidoPaterno, 
         apellidoMaterno: this.apellidoMaterno, 
@@ -91,14 +92,14 @@ export class DirectorioComponent implements OnInit {
         this.ident = '';
       },
       err => {
-        this.toastr.error( err.error.message, 'Mensaje del sistema' );
+        this.toastr.error( err.error.msg, 'Mensaje del sistema' );
         console.log(err);
       }
     );
   }
 
   public nuevaFactura(): void {
-    this.http.post(this.URI_FACTURA, {
+    this.http.post(this.URI+"/api/facturas", {
       monto: this.monto, 
       identificacion: this.idUsuario
     }
@@ -112,7 +113,7 @@ export class DirectorioComponent implements OnInit {
       this.idUsuario = '';
     },
     err => {
-      this.toastr.error( err.error.message, 'Mensaje del sistema' );
+      this.toastr.error( err.error.msg, 'Mensaje del sistema' );
       console.log(err);
     }
   );
